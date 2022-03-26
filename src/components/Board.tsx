@@ -1,8 +1,8 @@
 import './Board.scss';
-import { CoinColors } from '../App'
+import { CoinColor } from '../App'
+import { ChangeEvent, MouseEventHandler, SyntheticEvent } from 'react';
 
-function Board({ board, height, currentCoin, putCoin }) {
-
+function Board({ board, height, currentCoin, putCoin }: any) {
     return (
         <div className={`board ${currentCoin}-turn`}>
             {[...Array(board.length)].map(
@@ -19,9 +19,9 @@ function Board({ board, height, currentCoin, putCoin }) {
     )
 }
 
-function Column({ column, columnIndex, putCoin, height }) {
-    function columnClick(event) {
-        putCoin(event.currentTarget.dataset.column)
+function Column({ column, columnIndex, putCoin, height }: any) {
+    function columnClick(event: any) {
+        putCoin(parseInt(event.currentTarget.dataset.column))
     }
 
     return (
@@ -34,7 +34,7 @@ function Column({ column, columnIndex, putCoin, height }) {
     )
 }
 
-function Cell({ content }) {
+function Cell({ content }: any) {
     return (
         <div className={`cell ${content}`} />
     )
