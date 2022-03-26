@@ -17,6 +17,7 @@
         display: flex;
         width: 100%;
         flex-direction: column-reverse;
+
         &:hover {
             background-color: v.$columnHighlight;
         }
@@ -36,5 +37,16 @@
                 background-color: v.$yellow;
             }
         }
+    }
+}
+
+.board.yellow-turn {
+    .column:hover {
+        background-color: v.$yellow-highlight;
+    }
+}
+.board.red-turn {
+    .column:hover {
+        background-color: v.$red-highlight;
     }
 }

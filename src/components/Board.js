@@ -1,10 +1,10 @@
 import './Board.scss';
 import { CoinColors } from '../App'
 
-function Board({ board, height, putCoin }) {
+function Board({ board, height, currentCoin, putCoin }) {
 
     return (
-        <div className='board'>
+        <div className={`board ${currentCoin}-turn`}>
             {[...Array(board.length)].map(
                 (el, i) =>
                     <Column

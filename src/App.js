@@ -23,13 +23,15 @@ function App() {
       newBoard.push(board[col].slice())
     }
     newBoard[column].push(currentCoin)
-    changeColor(currentCoin === CoinColors.Red? CoinColors.Yellow : CoinColors.Red)
+    changeColor(currentCoin === CoinColors.Red ? CoinColors.Yellow : CoinColors.Red)
     setBoard(newBoard)
   }
 
   return (
     <div className="App">
-      <Board board={board} height={height} putCoin={putCoinInColumn} />
+      <Board board={board} height={height}
+        currentCoin={currentCoin}
+        putCoin={putCoinInColumn} />
     </div>
   );
 }
