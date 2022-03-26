@@ -1,0 +1,30 @@
+@use '../variables.scss' as v;
+
+.board {
+    display: flex;
+    max-width: 700px;
+    width: 100vh;
+
+    border-style: solid;
+    border-width: 12px 30px;
+    border-radius: 10px;
+    border-color: v.$boardBlue;
+    background-color: v.$boardBlue;
+
+    box-shadow: 1px 1px 2px black;
+
+    .column {
+        display: flex;
+        width: 100%;
+        flex-direction: column-reverse;
+
+        .cell {
+            aspect-ratio: 1/1;
+            margin: 9px;
+            border-radius: 50%;
+            background-color: v.$background;
+
+            box-shadow: inset 2px 2px 2px black;
+        }
+    }
+}
