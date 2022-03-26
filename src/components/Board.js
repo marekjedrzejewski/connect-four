@@ -1,6 +1,7 @@
 import './Board.scss';
+import { CoinColors } from '../App'
 
-function Board({ board, verticalFields = 6 }) {
+function Board({ board, height, putCoin }) {
 
     return (
         <div className='board'>
@@ -8,18 +9,27 @@ function Board({ board, verticalFields = 6 }) {
                 (el, i) =>
                     <Column
                         key={i}
-                        verticalFields={verticalFields}
+                        height={height}
                         column={board[i]}
+                        columnIndex={i}
+                        putCoin={putCoin}
                     />
             )}
         </div>
     )
 }
 
-function Column({ column, verticalFields = 6 }) {
+function Column({ column, columnIndex, putCoin, height }) {
+    function columnClick(event) {
+        putCoin(event.currentTarget.dataset.column)
+    }
+
     return (
-        <div className='column'>
-            {[...Array(verticalFields)].map((el, i) => <Cell key={i} content={column[i] || 'empty'} />)}
+        <div className='column' data-column={columnIndex} onClick={columnClick}>
+            {[...Array(height)].map(
+                (el, i) =>
+                    <Cell key={i} content={column[i] || 'empty'} />
+            )}
         </div>
     )
 }
