@@ -29,7 +29,12 @@ function Board(
 
 function Column(
     { column, columnIndex, putCoin, height }:
-        { column: Array<CoinColor>, columnIndex: number, putCoin: (column: number) => void, height: number }
+        {
+            column: Array<CoinColor>,
+            columnIndex: number,
+            putCoin: (column: number) => void,
+            height: number
+        }
 ) {
     function columnClick(event: React.MouseEvent<HTMLDivElement>) {
         putCoin(Number(event.currentTarget.dataset.column))
@@ -45,7 +50,7 @@ function Column(
     )
 }
 
-function Cell({ content }: {content: CoinColor}) {
+function Cell({ content }: { content: CoinColor }) {
     return (
         <div className={`cell ${content}`} />
     )

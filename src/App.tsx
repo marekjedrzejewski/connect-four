@@ -12,11 +12,12 @@ function App() {
   const height = 6
   const neededToWin = 4
 
-  const [currentCoin, changeColor] = useState(CoinColor.Yellow)
+  const [currentCoin, changeColor] = useState<CoinColor>(CoinColor.Yellow)
+  const [winner, setWinner] = useState<CoinColor | undefined>(undefined)
   const [board, setBoard] = useState(Array<Array<CoinColor>>(columns).fill([]))
 
   function putCoinInColumn(column: number) {
-    if (board[column].length === height) {
+    if (winner || board[column].length === height) {
       return
     }
 
@@ -26,8 +27,7 @@ function App() {
     }
     newBoard[column].push(currentCoin)
     setBoard(newBoard)
-    console.log(checkIfWon(column, newBoard[column].length - 1))
-    changeColor(currentCoin === CoinColor.Red ? CoinColor.Yellow : CoinColor.Red)
+    checkIfWon(column, newBoard[column].length - 1)
   }
 
 
@@ -41,8 +41,11 @@ function App() {
       checkFirstDiagonal(col, row) ||
       checkSecondDiagonal(col, row)
 
-    return found || false
-
+    if (found) {
+      setWinner(currentCoin)
+    } else {
+      changeColor(currentCoin === CoinColor.Red ? CoinColor.Yellow : CoinColor.Red)
+    }
   }
 
   function checkInColumn(col: number, row: number) {
@@ -139,7 +142,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={`App ${winner}`}>
       <Board board={board} height={height}
         currentCoin={currentCoin}
         putCoin={putCoinInColumn} />
