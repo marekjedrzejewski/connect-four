@@ -17,6 +17,9 @@
         display: flex;
         width: 100%;
         flex-direction: column-reverse;
+        &:hover {
+            background-color: v.$columnHighlight;
+        }
 
         .cell {
             aspect-ratio: 1/1;
@@ -25,6 +28,13 @@
             background-color: v.$background;
 
             box-shadow: inset 2px 2px 2px black;
+
+            &.red {
+                background-color: v.$red;
+            }
+            &.yellow {
+                background-color: v.$yellow;
+            }
         }
     }
 }

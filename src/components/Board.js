@@ -1,27 +1,32 @@
 import './Board.scss';
 
-function Board ({horizontalFields=7, verticalFields=6}) {
+function Board({ board, verticalFields = 6 }) {
 
     return (
         <div className='board'>
-            {[...Array(horizontalFields)].map(() => <Column />)}
+            {[...Array(board.length)].map(
+                (el, i) =>
+                    <Column
+                        key={i}
+                        verticalFields={verticalFields}
+                        column={board[i]}
+                    />
+            )}
         </div>
     )
 }
 
-function Column ({verticalFields=6}) {
+function Column({ column, verticalFields = 6 }) {
     return (
         <div className='column'>
-            {[...Array(verticalFields)].map((el, i) => <Cell content={i}/>)}
+            {[...Array(verticalFields)].map((el, i) => <Cell key={i} content={column[i] || 'empty'} />)}
         </div>
     )
 }
 
-function Cell ({content}) {
+function Cell({ content }) {
     return (
-        <div className='cell'>
-            {content}
-        </div>
+        <div className={`cell ${content}`} />
     )
 }
 
