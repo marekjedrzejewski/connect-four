@@ -36,7 +36,10 @@ function App() {
   // we're checking without last move in board
   function checkIfWon(col: number, row: number) {
 
-    const found = checkInColumn(col, row) || checkInRow(col, row)
+    const found = checkInColumn(col, row) ||
+      checkInRow(col, row) ||
+      checkFirstDiagonal(col, row) ||
+      checkSecondDiagonal(col, row)
 
     return found || false
 
@@ -47,7 +50,7 @@ function App() {
     let timesInCol = 1
     for (let y = row - 1; ; y--) {
       if (board[col][y] !== currentCoin) {
-        break 
+        break
       } else {
         timesInCol++
         if (timesInCol === neededToWin) {
@@ -60,7 +63,7 @@ function App() {
   function checkInRow(col: number, row: number) {
     let timesInRow = 1
     // left
-    for (let x = col-1;;x--) {
+    for (let x = col - 1; ; x--) {
       if (board[x]?.[row] !== currentCoin) {
         break
       } else {
@@ -71,12 +74,64 @@ function App() {
       }
     }
     // right
-    for (let x = col+1;;x++) {
+    for (let x = col + 1; ; x++) {
       if (board[x]?.[row] !== currentCoin) {
         break
       } else {
         timesInRow++
         if (timesInRow === neededToWin) {
+          return true
+        }
+      }
+    }
+  }
+
+  function checkFirstDiagonal(col: number, row: number) {
+    let timesInDiagonal = 1
+    // left
+    for (let x = col - 1, y = row - 1; ; x--, y--) {
+      if (board[x]?.[y] !== currentCoin) {
+        break
+      } else {
+        timesInDiagonal++
+        if (timesInDiagonal === neededToWin) {
+          return true
+        }
+      }
+    }
+    // right
+    for (let x = col + 1, y = row + 1; ; x++, y++) {
+      if (board[x]?.[y] !== currentCoin) {
+        break
+      } else {
+        timesInDiagonal++
+        if (timesInDiagonal === neededToWin) {
+          return true
+        }
+      }
+    }
+  }
+
+  function checkSecondDiagonal(col: number, row: number) {
+    let timesInDiagonal = 1
+    // left
+    for (let x = col - 1, y = row + 1; ; x--, y++) {
+      if (board[x]?.[y] !== currentCoin) {
+        break
+      } else {
+        timesInDiagonal++
+        if (timesInDiagonal === neededToWin) {
+          return true
+        }
+      }
+    }
+    // right
+    for (let x = col + 1, y = row - 1; ; x++, y--) {
+      if (board[x]?.[y] !== currentCoin) {
+        break
+      } else {
+        timesInDiagonal++
+        if (timesInDiagonal === neededToWin) {
           return true
         }
       }
