@@ -50,9 +50,10 @@ function App() {
       }
       newBoard[item].pop()
       setBoard(newBoard)
-      changeColor()
       if (winner) {
         setWinner(() => undefined)
+      } else {
+        changeColor()
       }
     }
   }
