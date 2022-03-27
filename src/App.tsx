@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import Board from './components/Board'
 
@@ -12,9 +12,14 @@ function App() {
   const height = 6
   const neededToWin = 4
 
-  const [currentCoin, changeColor] = useState<CoinColor>(CoinColor.Yellow)
+  const [history, setHistory] = useState<Array<number>>([])
+  const [currentCoin, setColor] = useState<CoinColor>(CoinColor.Yellow)
   const [winner, setWinner] = useState<CoinColor | undefined>(undefined)
   const [board, setBoard] = useState(Array<Array<CoinColor>>(columns).fill([]))
+
+  function changeColor() {
+      setColor(currentCoin === CoinColor.Red ? CoinColor.Yellow : CoinColor.Red)
+  }
 
   function putCoinInColumn(column: number) {
     if (winner || board[column].length === height) {
@@ -27,9 +32,44 @@ function App() {
     }
     newBoard[column].push(currentCoin)
     setBoard(newBoard)
+    setHistory(() => history.concat(column))
     checkIfWon(column, newBoard[column].length - 1)
   }
 
+  function undo() {
+    let item: number | undefined
+    setHistory(() => {
+      const h = [...history]
+      item = h.pop()
+      return h
+    })
+    if (item !== undefined) {
+      const newBoard = []
+      for (let col in board) {
+        newBoard.push(board[col].slice())
+      }
+      newBoard[item].pop()
+      setBoard(newBoard)
+      changeColor()
+      if (winner) {
+        setWinner(() => undefined)
+      }
+    }
+  }
+
+  function keyDownHandler(event: KeyboardEvent) {
+    if (event.key === 'z' && (event.ctrlKey || event.metaKey)) {
+      undo()
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyDownHandler)
+
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler)
+    }
+  }, [keyDownHandler])
 
   // will check for current color, so has to be called before changeColor
   // ...or maybe not. setBoard doesn't update board before calling this,
@@ -44,7 +84,7 @@ function App() {
     if (found) {
       setWinner(currentCoin)
     } else {
-      changeColor(currentCoin === CoinColor.Red ? CoinColor.Yellow : CoinColor.Red)
+      changeColor()
     }
   }
 
